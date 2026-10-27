@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="description" content="A personalized birthday capsule with voice notes and memories from the people who know you" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta property="og:title" content="Happy Birthday!" />
+  <meta property="og:description" content="Open this audio capsule to listen to birthday messages from your friends and family." />
+
+  <meta name="theme-color" content="#0A0910" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Birthday Capsule" />
+
+  <!-- Favicon & Web Manifest -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="manifest" href="site.webmanifest" />
+
+  <title>Happy Birthday! — Birthday Capsule</title>
+
+  <!-- High-Priority Resource Preloads -->
+  <link rel="preload" href="styles.css?v=20261022" as="style" />
+  <link rel="preload" href="data/messages.json?v=20261022" as="fetch" crossorigin="anonymous" />
+  <link rel="preload" href="assets/images/cover_bg.webp" as="image" type="image/webp" />
+
+  <!-- Google Fonts: Playfair Display (Botanical Type), Syne (Display) & Urbanist (Body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=Syne:wght@700;800&family=Urbanist:wght@500;600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css?v=20261022" />
+</head>
+<body>
+
+<!-- Loading Overlay -->
+<div id="loading-overlay" role="status" aria-label="Loading your capsule…">
+  <div class="loading-spinner"></div>
+</div>
+
+<!-- ============================================================
+     APP ROOT
+     ============================================================ -->
+<div id="app">
+
+  <!-- ========================================================
+       SCREEN 1 — THE OPENING (EDITORIAL WRAPPED COVER)
+       ======================================================== -->
+  <section id="screen-opening" class="screen" aria-label="Birthday capsule opening">
+    <!-- Memory Photo Backdrop (Layered below gradient & particles) -->
+    <div class="opening-photo-bg" aria-hidden="true"></div>
+    <div class="opening-gradient-overlay" aria-hidden="true"></div>
+
+    <!-- Atmospheric Ambient Backlight -->
+    <div class="ambient-glow glow-top" aria-hidden="true"></div>
+    <div class="ambient-glow glow-center" aria-hidden="true"></div>
+    <div class="ambient-glow glow-bottom" aria-hidden="true"></div>
+
+    <!-- Canvas for subtle atmospheric dust -->
+    <canvas id="particle-canvas" aria-hidden="true"></canvas>
+
+    <div class="opening-stage">
+      <div class="opening-capsule-badge">
+        <span class="pulse-indicator"></span>
+        <span>Birthday Capsule</span>
+      </div>
+
+      <h1 class="opening-name" id="opening-name">Birthday Star</h1>
+      
+      <p class="opening-tagline" id="opening-tagline">
+        Someone has something to tell you…
+      </p>
+
+      <button class="btn-primary" id="btn-open" aria-label="Open your birthday surprise">
+        <span>Open Your Capsule</span>
+        <svg viewBox="0 0 20 20" width="18" height="18" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+        </svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- ========================================================
+       SCREEN 2 — CINEMATIC INTRO
+       ======================================================== -->
+  <section id="screen-intro" class="screen" aria-label="Introduction">
+    <div class="intro-stage">
+      <div class="intro-pill">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+          <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+        </svg>
+        <span>Chapter 01 · The Intro</span>
+      </div>
+
+      <p class="intro-headline" id="intro-line">
+        Today isn’t just about another year.<br />
+        It’s about all the voices who are <span class="highlight-coral">glad you exist</span>.
+      </p>
+
+      <p class="intro-subtitle" id="intro-sub">
+        Put on your headphones. Each person recorded something meant just for you.
+      </p>
+
+      <div class="intro-hint">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+          <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+        </svg>
+        <span>Turn up your sound</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================
+       SCREEN 3 — DEDICATED STORIES (AUDIO OR TEXT)
+       ======================================================== -->
+  <section id="screen-stories" class="screen" aria-label="Birthday stories">
+    <!-- Story Progress Row -->
+    <div class="story-progress-row" id="progress-bar-row" role="progressbar" aria-label="Stories progress"></div>
+
+    <!-- Story Top Bar -->
+    <header class="story-header" id="story-top-bar">
+      <div class="story-sender-pill">
+        <img class="story-sender-avatar" id="story-avatar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E" alt="" aria-hidden="true" />
+        <div class="story-sender-monogram" id="story-avatar-placeholder" aria-hidden="true"></div>
+        <span class="story-sender-name" id="story-friend-name"></span>
+      </div>
+
+      <div class="story-header-right">
+        <button class="story-pause-btn" id="btn-story-pause" aria-label="Pause story" title="Pause / Play (Space)">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+          </svg>
+        </button>
+        <span class="story-type-tag" id="story-type-badge">Voice Note</span>
+        <span class="story-counter-tag" id="story-counter" aria-live="polite">01 / 06</span>
+      </div>
+    </header>
+
+    <!-- Visual Story Paused Badge Overlay -->
+    <div class="story-pause-indicator" id="story-pause-indicator" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+        <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+      </svg>
+      <span>PAUSED</span>
+    </div>
+
+    <!-- Injected Slides Container -->
+    <div id="stories-container" aria-live="polite"></div>
+
+    <!-- Navigation Tap Zones -->
+    <div class="nav-tap-zone zone-left" id="zone-prev" aria-label="Previous story"></div>
+    <div class="nav-tap-zone zone-right" id="zone-next" aria-label="Next story"></div>
+
+    <!-- Accessible Nav Buttons -->
+    <button class="story-nav-btn nav-btn-prev" id="btn-story-prev" aria-label="Previous story">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+        <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+      </svg>
+    </button>
+    <button class="story-nav-btn nav-btn-next" id="btn-story-next" aria-label="Next story">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+        <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+      </svg>
+    </button>
+  </section>
+
+  <!-- ========================================================
+       SCREEN 4 — TYPE GARDEN POSTER FINALE
+       ======================================================== -->
+  <section id="screen-botanical" class="screen" aria-label="Birthday type garden poster finale">
+    <!-- Dynamic Memory Photo Collage Backdrop -->
+    <div class="botanical-collage-backdrop" id="botanical-collage-backdrop" aria-hidden="true">
+      <div class="bento-conveyor" id="bento-conveyor"></div>
+      <div class="botanical-collage-overlay" id="botanical-collage-overlay"></div>
+    </div>
+
+    <!-- Theme-Reactive Atmospheric Ambient Glow -->
+    <div class="botanical-theme-glow" id="botanical-theme-glow" aria-hidden="true"></div>
+
+    <!-- Full-Screen Stage for Happy Birthday Typography & Flowers -->
+    <div class="tg-full-stage">
+      <canvas id="tg-canvas" width="1080" height="1080"></canvas>
+    </div>
+
+    <!-- Floating Action Navigation (Desktop & Mobile) -->
+    <nav class="tg-floating-actions" aria-label="Finale navigation">
+      <button class="tg-action-btn primary" id="btn-tg-replay" aria-label="Replay capsule">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+          <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/>
+        </svg>
+        <span>Replay Capsule</span>
+      </button>
+      <button class="tg-action-btn secondary" id="btn-tg-back" aria-label="Back to stories">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+          <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+        </svg>
+        <span>Stories</span>
+      </button>
+    </nav>
+  </section>
+
+</div><!-- #app -->
+
+<!-- Toast Notification -->
+<div class="toast-container" id="toast-container" aria-live="assertive" aria-atomic="true"></div>
+
+<script src="type_garden.js?v=20261022" defer></script>
+<script src="script.js?v=20261022" defer></script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    });
+  }
+</script>
+</body>
+</html>

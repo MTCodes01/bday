@@ -1,0 +1,21 @@
+# Operating System Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Python caches
+__pycache__/
+*.pyc
+
+# Node
+node_modules/
+npm-debug.log*
+
+# IDE & Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Local build / scratch
+scratch/

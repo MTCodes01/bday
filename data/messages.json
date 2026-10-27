@@ -1,0 +1,48 @@
+[
+  {
+    "id": "alex",
+    "name": "Alex",
+    "relationship": "Best Friend",
+    "avatar": "assets/images/avatar-1.svg",
+    "color": "#FF6B8B",
+    "type": "audio",
+    "audio": "assets/audio/sample_voice_note.mp3",
+    "caption": "Recorded a special voice note for your birthday 🎧"
+  },
+  {
+    "id": "sam",
+    "name": "Sam",
+    "relationship": "Childhood Friend",
+    "avatar": "assets/images/avatar-2.svg",
+    "color": "#A855F7",
+    "type": "text",
+    "heading": "To one of my favorite humans ✨",
+    "message": "Wishing you the happiest birthday ever! Thank you for always being there through all the laughs, chaotic late-night conversations, and wonderful memories. I hope this year brings you everything you've been dreaming of and more!",
+    "music": "assets/music/nastelbom-background-music-617073.mp3",
+    "audio": null
+  },
+  {
+    "id": "jordan",
+    "name": "Jordan",
+    "relationship": "Close Friend",
+    "avatar": "assets/images/avatar-3.svg",
+    "color": "#06B6D4",
+    "type": "text",
+    "heading": "Another year of greatness!",
+    "message": "Happy Birthday! Here's to celebrating you today and all the incredible moments yet to come. Don't ever stop being your authentic, brilliant self!",
+    "image": "assets/images/sample_celebration.jpg",
+    "imageCaption": "Here's to making more unforgettable memories together! 🎂",
+    "music": "assets/music/dailyvibe-upbeat-corporate-614426.mp3",
+    "audio": null
+  },
+  {
+    "id": "taylor",
+    "name": "Taylor",
+    "relationship": "Family",
+    "color": "#F59E0B",
+    "type": "text",
+    "message": "May your day be filled with warm smiles, delicious cake, and the people who love you most. Happy Birthday! 🎉",
+    "music": "assets/music/jonasblakewood-future-beat-music-619127.mp3",
+    "audio": null
+  }
+]

@@ -1,0 +1,15 @@
+{
+  "name": "Birthday Capsule",
+  "short_name": "Capsule",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "theme_color": "#0A0910",
+  "background_color": "#0A0910",
+  "display": "standalone"
+}
